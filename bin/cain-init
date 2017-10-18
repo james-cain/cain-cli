@@ -1,0 +1,48 @@
+let download = require('download-git-repo')
+let program = require('commander')
+let ora = require('ora')
+let inquirer = require('inquirer')
+let home = require('user-home')
+let tildify = require('tildify')
+
+program
+  .usage('<template-name> [project-name]')
+  .option('-c, --clone', '利用 git clone 方式克隆项目')
+
+program
+  .on('--help', function () {
+    console.log(' 例子：')
+    console.log()
+    console.log(chalk.gray('    # 从github模板中创建项目'))
+    console.log('   $ cain init username/repo my-project')
+    console.log()
+    console.log(chalk.gray('    # 从gitlab模板中创建项目'))
+    console.log('   $ cain init -c username/repo my-project')
+    console.log()
+  })
+
+function help () {
+  program.parse(process.argv)
+  if (program.args.length < 1) return program.help()
+}
+
+help()
+
+let template = pragram.args[0]
+let hasSlash = template.indexOf('/') > -1
+let rawName = program.args[1]
+let inPlace = !rawName || rawName === '.'
+let name = inPlace ? path.relative('../', process.cwd()) : rawName
+let to = path.resolve(rawName || '.')
+let clone = program.clone || false
+
+let tmp = path.join(home, '.eim-templates', template.replace(/\//g, '-'))
+if (program.offline) {
+  console.log(`> 利用缓存中的模板（${chalk.yellow(tildify(tmp))}）`)
+  template = tmp
+}
+
+process.on('exit', function () {
+  console.log('强制退出命令')
+})
+
