@@ -1,4 +1,4 @@
-require('commander)
+require('commander')
   .version(require('../packages').version)
   .usage('<command> [options]')
   .command('init', '根据模板生成一个新工程')
