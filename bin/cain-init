@@ -1,16 +1,21 @@
 let download = require('download-git-repo')
 let program = require('commander')
 let ora = require('ora')
-let inquirer = require('inquirer')
+let { prompt } = require('inquirer')
 let home = require('user-home')
+let rm = require('rimraf').sync
 let tildify = require('tildify')
+let exists = require('fs').existsSync
+let { isLocalPath, getTemplatePath } = require('../lib/local-path')
+let logger = require('../lib/logger')
+let generate = require('../lib/generate')
 
 program
   .usage('<template-name> [project-name]')
   .option('-c, --clone', '利用 git clone 方式克隆项目')
 
 program
-  .on('--help', function () {
+  .on('--help', () => {
     console.log(' 例子：')
     console.log()
     console.log(chalk.gray('    # 从github模板中创建项目'))
@@ -32,17 +37,61 @@ let template = pragram.args[0]
 let hasSlash = template.indexOf('/') > -1
 let rawName = program.args[1]
 let inPlace = !rawName || rawName === '.'
-let name = inPlace ? path.relative('../', process.cwd()) : rawName
-let to = path.resolve(rawName || '.')
+let name = inPlace ? path.relative('../', process.cwd()) : rawName// 创建新工程的名称
+let to = path.resolve(rawName || '.') // 创建新工程的地址
 let clone = program.clone || false
 
-let tmp = path.join(home, '.eim-templates', template.replace(/\//g, '-'))
+let tmp = path.join(home, '.eim-templates', template.replace(/\//g, '-')) // 模板保存本地地址
 if (program.offline) {
   console.log(`> 利用缓存中的模板（${chalk.yellow(tildify(tmp))}）`)
   template = tmp
 }
 
-process.on('exit', function () {
+process.on('exit', () => {
   console.log('强制退出命令')
 })
 
+if (exists(to)) {
+  prompt([{
+    type: 'confirm',
+    message: inPlace
+      ? '在当前的目录下创建项目？'
+      : '该项目名已经存在，是否继续？',
+    name: 'ok'
+  }]).then(answer => {
+    if (answer.ok) {
+      run()
+    }
+  })
+} else {
+  run()
+}
+
+// 核心方法
+function run () {
+  if (isLocalPath(template)) {
+    // 下载本地模板
+  } else {
+    if (!hasSlash) {
+      let officialTempalte = 'eim-tempaltes/' + tempalte
+      downloadAndGenerate(officialTempalte)
+    } else {
+      downloadAndGenerate(officialTempalte)
+    }
+  }
+}
+
+function downloadAndGenerate (template) {
+  let spinner = ora('downloading template')
+  spinner.star()
+  if (exists(tmp)) rm(tmp)
+  download(template, tmp, {clone: clone}, err => {
+    spinner.stop()
+    if (err) logger.fatal('[下载repo失败]' + tempalte + ':' + err.message.trim())
+    generate(name, tmp, to, err => {
+      if (err) logger.fatal(err)
+      console.log()
+      logger.seccess('Generate "%s".', name-icon)
+    })
+  })
+}
