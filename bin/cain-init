@@ -1,6 +1,8 @@
 let download = require('download-git-repo')
+let chalk = require('chalk')
 let program = require('commander')
 let ora = require('ora')
+var path = require('path')
 let { prompt } = require('inquirer')
 let home = require('user-home')
 let rm = require('rimraf').sync
@@ -33,7 +35,7 @@ function help () {
 
 help()
 
-let template = pragram.args[0]
+let template = program.args[0]
 let hasSlash = template.indexOf('/') > -1
 let rawName = program.args[1]
 let inPlace = !rawName || rawName === '.'
@@ -48,7 +50,7 @@ if (program.offline) {
 }
 
 process.on('exit', () => {
-  console.log('强制退出命令')
+  console.log('')
 })
 
 if (exists(to)) {
@@ -73,25 +75,27 @@ function run () {
     // 下载本地模板
   } else {
     if (!hasSlash) {
-      let officialTempalte = 'eim-tempaltes/' + tempalte
-      downloadAndGenerate(officialTempalte)
+      let officialTemplate = 'eim-templates/' + template
+      downloadAndGenerate(officialTemplate)
     } else {
-      downloadAndGenerate(officialTempalte)
+      downloadAndGenerate(template)
     }
   }
 }
 
 function downloadAndGenerate (template) {
   let spinner = ora('downloading template')
-  spinner.star()
+  spinner.start()
   if (exists(tmp)) rm(tmp)
   download(template, tmp, {clone: clone}, err => {
     spinner.stop()
-    if (err) logger.fatal('[下载repo失败]' + tempalte + ':' + err.message.trim())
+    if (err) console.log(chalk.red('eim-cli'), chalk.gray('.'), '[下载repo失败]' + template + ':' + err.message.trim())
+    // logger.fatal('[下载repo失败]' + template + ':' + err.message.trim()) 
     generate(name, tmp, to, err => {
-      if (err) logger.fatal(err)
-      console.log()
-      logger.seccess('Generate "%s".', name-icon)
+      if (err) console.log(chalk.red('eim-cli'), chalk.gray('.'), err)
+      // logger.fatal(err) 
+      // logger.success('Generate "%s".', name)
+      console.log(chalk.white('eim-cli'), chalk.gray('.'), `${name} 创建成功！`)
     })
   })
 }

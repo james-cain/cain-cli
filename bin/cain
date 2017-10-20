@@ -1,6 +1,5 @@
 require('commander')
-  .version(require('../packages').version)
+  .version(require('../package').version)
   .usage('<command> [options]')
   .command('init', '根据模板生成一个新工程')
   .parse(process.argv)
-  
