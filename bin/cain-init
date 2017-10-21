@@ -78,7 +78,12 @@ function run () {
       let officialTemplate = 'eim-templates/' + template
       downloadAndGenerate(officialTemplate)
     } else {
-      downloadAndGenerate(template)
+      if (clone) {
+        let gitlabTemplate = 'gitlab:' + template
+        downloadAndGenerate(gitlabTemplate)
+      } else {
+        downloadAndGenerate(template)
+      }
     }
   }
 }
