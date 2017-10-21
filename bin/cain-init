@@ -100,7 +100,7 @@ function downloadAndGenerate (template) {
       if (err) console.log(chalk.red('eim-cli'), chalk.gray('.'), err)
       // logger.fatal(err) 
       // logger.success('Generate "%s".', name)
-      console.log(chalk.white('eim-cli'), chalk.gray('.'), `${name} 创建成功！`)
+      console.log(chalk.green('eim-cli'), chalk.gray('.'), `${name} 创建成功！`)
     })
   })
 }
