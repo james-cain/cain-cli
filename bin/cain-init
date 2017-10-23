@@ -1,4 +1,3 @@
-let download = require('download-git-repo')
 let chalk = require('chalk')
 let program = require('commander')
 let ora = require('ora')
@@ -11,6 +10,7 @@ let exists = require('fs').existsSync
 let { isLocalPath, getTemplatePath } = require('../lib/local-path')
 let logger = require('../lib/logger')
 let generate = require('../lib/generate')
+let download = require('../lib/download')
 
 program
   .usage('<template-name> [project-name]')
@@ -43,7 +43,7 @@ let name = inPlace ? path.relative('../', process.cwd()) : rawName// 创建新�
 let to = path.resolve(rawName || '.') // 创建新工程的地址
 let clone = program.clone || false
 
-let tmp = path.join(home, '.eim-templates', template.replace(/\//g, '-')) // 模板保存本地地址
+let tmp = path.join(home, '.cain-templates', template.replace(/\//g, '-')) // 模板保存本地地址
 if (program.offline) {
   console.log(`> 利用缓存中的模板（${chalk.yellow(tildify(tmp))}）`)
   template = tmp
@@ -75,7 +75,7 @@ function run () {
     // 下载本地模板
   } else {
     if (!hasSlash) {
-      let officialTemplate = 'eim-templates/' + template
+      let officialTemplate = 'cain-templates/' + template
       downloadAndGenerate(officialTemplate)
     } else {
       if (clone) {
@@ -94,13 +94,13 @@ function downloadAndGenerate (template) {
   if (exists(tmp)) rm(tmp)
   download(template, tmp, {clone: clone}, err => {
     spinner.stop()
-    if (err) console.log(chalk.red('eim-cli'), chalk.gray('.'), '[下载repo失败]' + template + ':' + err.message.trim())
+    if (err) console.log(chalk.red('cain-cli'), chalk.gray('.'), '[下载repo失败]' + template + ':' + err.message.trim())
     // logger.fatal('[下载repo失败]' + template + ':' + err.message.trim()) 
     generate(name, tmp, to, err => {
-      if (err) console.log(chalk.red('eim-cli'), chalk.gray('.'), err)
+      if (err) console.log(chalk.red('cain-cli'), chalk.gray('.'), err)
       // logger.fatal(err) 
       // logger.success('Generate "%s".', name)
-      console.log(chalk.green('eim-cli'), chalk.gray('.'), `${name} 创建成功！`)
+      console.log(chalk.green('cain-cli'), chalk.gray('.'), `${name} 创建成功！`)
     })
   })
 }
