@@ -5,7 +5,41 @@
 
 首先本地环境要有nodejs的环境，并配置npm intall -g全局安装的目录位置
 
-安装该项目到本地
+到node官网中[下载](https://nodejs.org/en/)，路径可以自己指定，安装完成后，在命令行窗口中执行命令
+
+```
+node -v
+
+npm -v
+```
+
+有出现版本号即安装成功
+
+配置全局npm的路径
+
+在安装的node的目录内，创建node_global和node_cache两个文件夹，在命令行窗口执行
+
+```
+npm config set cache "node安装路径\node_cache"
+npm config set prefix "node安装路径\node_global"
+```
+
+然后运行(2)
+
+```
+npm install vue-cli -g
+```
+
+如果在node_global目录下没有vue-cli文件夹，则在nodejs安装目录中找到node_modules\npm\ .npmrc文件，修改如下代码：
+
+```
+prefix = node安装路径\node_global
+cache = node安装路径\node_cache
+```
+
+接着运行(2)查看，若有，则配置成功。
+
+接着安装该项目到本地
 
 ```
 git clone https://github.com/james-cain/cain-cli
