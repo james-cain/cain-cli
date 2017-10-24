@@ -18,7 +18,6 @@ function listTable (tplList, lyric) {
         if (lyric) {
           console.log(chalk.green(` ${lyric}`))
         }
-        process.exit()
       }
     })
   }

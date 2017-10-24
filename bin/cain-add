@@ -1,6 +1,6 @@
 let { prompt } = require('inquirer')
 let { writeFile } = require('fs')
-let {listTable} = require('../utils')
+let { listTable } = require('../utils')
 
 let tplList = require('../templist')
 
@@ -44,10 +44,11 @@ prompt(question).then(({name, place, branch}) => {
   tplList[name]['owner/name'] = place
   tplList[name]['branch'] = branch
 
-  writeFile(`${__dirname}/../templist.json`, JSON.stringify(tplList), 'utf-8', err => {
+  writeFile(`${__dirname}/../templist.json`, JSON.stringify(tplList, null, 2), 'utf-8', err => {
     if (err) {
       console.log(err)
     }
     listTable(tplList, '新的模板名和仓库位置已经创建成功！')
+    process.exit()
   })
 })
