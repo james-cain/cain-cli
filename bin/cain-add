@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 let { prompt } = require('inquirer')
 let { writeFile } = require('fs')
 let { listTable } = require('../utils')

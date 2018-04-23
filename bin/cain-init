@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 let chalk = require('chalk')
 let program = require('commander')
 let ora = require('ora')
