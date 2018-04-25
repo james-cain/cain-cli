@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 let { listTable } = require('../utils')
 
 let tplList = require('../templist')

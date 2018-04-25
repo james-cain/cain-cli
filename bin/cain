@@ -1,9 +1,51 @@
 #!/usr/bin/env node
-require('commander')
-  .version(require('../package').version)
-  .usage('<command> [options]')
-  .command('init', '根据模板生成一个新工程')
-  .command('add', '添加一个模板记录')
-  .command('list', '查看模板列表')
-  .command('delete', '删除模板')
-  .parse(process.argv)
+
+const { resolve } = require('path')
+
+const res = command => resolve(__dirname, '../commands/', command)
+
+const program = require('commander')
+
+program
+    .version(require('../package').version)
+
+program
+    .usage('<command> [options]')
+
+program
+    .command('init')
+    .description('Init a new repo through the template')
+    .alias('i')
+    .action(() => {
+        require(res('init'))
+    })
+
+program
+    .command('add')
+    .description('Add a new record of template into json')
+    .alias('a')
+    .action(() => {
+        require(res('add'))
+    })
+
+program
+    .command('list')
+    .description('Show the record-list of existing templates')
+    .alias('l')
+    .action(() => {
+        require(res('list'))
+    })
+
+program
+    .command('delete')
+    .description('Delete a record of template json')
+    .alias('d')
+    .action(() => {
+        require(res('delete'))
+    })
+
+program.parse(process.argv)
+
+if (!program.args.length) {
+    program.help()
+}

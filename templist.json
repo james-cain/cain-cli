@@ -1,1 +1,6 @@
-{}
+{
+  "cain-template-webpack-vue": {
+    "owner/name": "james-cain/cain-template-webpack-vue",
+    "branch": "master"
+  }
+}
