@@ -76,7 +76,7 @@ function run () {
     // 下载本地模板
   } else {
     if (!hasSlash) {
-      let officialTemplate = 'cain-templates/' + template
+      let officialTemplate = 'james-cain/' + template
       downloadAndGenerate(officialTemplate)
     } else {
       if (clone) {
