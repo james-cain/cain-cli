@@ -42,7 +42,9 @@ cain 后可带命令参数
 
 目前模板已经有
 
-[cain-template-webpack-vue/PC端后台开发模板/](https://github.com/james-cain/cain-template-webpack-vue)
+[cain-template-webpack-vue/PC端后台模板一/](https://github.com/james-cain/cain-template-webpack-vue)
+
+[cain-design-pro/PC端后台模板二/](https://github.com/james-cain/cain-design-pro)
 
 长远考虑，可以提供更多的开发模板使用，也可以继续完善该脚本功能。
 
