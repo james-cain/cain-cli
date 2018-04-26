@@ -1,6 +1,6 @@
 {
   "name": "cain-cli",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "a tool to generate projects from git or gitlab",
   "bin": {
     "cain": "bin/cain"
