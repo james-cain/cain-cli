@@ -2,5 +2,9 @@
   "cain-template-webpack-vue": {
     "owner/name": "james-cain/cain-template-webpack-vue",
     "branch": "master"
+  },
+  "cain-design-pro": {
+    "owner/name": "james-cain/cain-design-pro",
+    "branch": "master"
   }
 }
